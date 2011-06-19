@@ -1,0 +1,7 @@
+c:\users\vascop\documents\visual studio 2010\Projects\owlas_0_0_1\owlas_0_0_1\bin\owlas_0_0_1.dll
+c:\users\vascop\documents\visual studio 2010\Projects\owlas_0_0_1\owlas_0_0_1\bin\owlas_0_0_1.pdb
+c:\users\vascop\documents\visual studio 2010\Projects\owlas_0_0_1\owlas_0_0_1\bin\EntityFramework.dll
+c:\users\vascop\documents\visual studio 2010\Projects\owlas_0_0_1\owlas_0_0_1\bin\EntityFramework.xml
+c:\users\vascop\documents\visual studio 2010\Projects\owlas_0_0_1\owlas_0_0_1\obj\Debug\ResolveAssemblyReference.cache
+c:\users\vascop\documents\visual studio 2010\Projects\owlas_0_0_1\owlas_0_0_1\obj\Debug\owlas_0_0_1.dll
+c:\users\vascop\documents\visual studio 2010\Projects\owlas_0_0_1\owlas_0_0_1\obj\Debug\owlas_0_0_1.pdb

@@ -1,0 +1,20 @@
+﻿@model owlas_0_0_1.Models.RegisterModel
+
+@{
+    Layout = "~/Views/Shared/Landing.cshtml";
+    ViewBag.Title = "Owlas - O teu companheiro de estudo";
+}
+
+@{ Html.RenderPartial("_Connects"); }
+
+<div id="description">
+<h2>Esclarece dúvidas, forma um grupo de trabalho, <br />
+partilha recursos e melhora a qualidade do teu estudo.</h2>
+</div>
+
+<div id="video_embed">  
+    <iframe width="420" height="276" src="http://www.youtube.com/embed/9zrMlEEWBgY?rel=0&amp;hd=1&amp;modestbranding=1&amp;autohide=1&amp;fs=0&amp;showinfo=0&amp;iv_load_policy=3" frameborder="0"></iframe>
+</div>
+
+<!-- Register Box -->
+@{ Html.RenderPartial("_Register"); }

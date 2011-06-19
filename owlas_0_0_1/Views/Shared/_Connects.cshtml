@@ -1,0 +1,18 @@
+﻿<!--FACEBOOK CONNECT-->
+<div id="fb-root"></div>
+<script type="text/javascript">
+    FB.init({
+        appId: 'YOUR_APP_ID', cookie: true,
+        status: true, xfbml: true
+    });
+</script>
+<!--GOOGLE CONNECT-->
+<script type="text/javascript">
+    google.load('friendconnect', '0.8');
+</script>
+<script type="text/javascript">
+    google.friendconnect.container.loadOpenSocialApi({
+        site: 'XXXXXXXXXXXXXXXXXXXX',
+        onload: function (securityToken) { }
+    });
+</script>

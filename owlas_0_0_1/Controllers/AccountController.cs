@@ -64,17 +64,16 @@ namespace owlas_0_0_1.Controllers
 
         //
         // GET: /Account/Register
-
+        /*
         public ActionResult Register()
         {
             return View();
-        }
+        }*/
 
         //
-        // POST: /Account/Register
+        // GET: /Account/Register
 
-        [HttpPost]
-        public ActionResult Register(RegisterModel model)
+        public PartialViewResult Register(RegisterModel model)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +90,7 @@ namespace owlas_0_0_1.Controllers
                     mailer.SendConfirmationEmail(user);
 
                     /*FormsAuthentication.SetAuthCookie(model.Email, false  createPersistentCookie );*/
-                    return RedirectToAction("About", "Home");
+                    return PartialView("_RegisterReply");
                 }
                 else
                 {
@@ -100,7 +99,7 @@ namespace owlas_0_0_1.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            return View("~/Views/Home/Index.cshtml", model);
+            return PartialView("_RegisterReply");
         }
 
         //
@@ -181,8 +180,7 @@ namespace owlas_0_0_1.Controllers
                 }
                 else
                 {
-                    FormsAuthentication.SignOut();
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("About", "Home");
                 }
             }
         }

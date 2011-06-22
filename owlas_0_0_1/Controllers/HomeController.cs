@@ -10,6 +10,10 @@ namespace owlas_0_0_1.Controllers
     {
         public ActionResult Index()
         {
+            if (Request.IsAuthenticated)
+            {
+                return RedirectToAction("About", "Home");
+            }
             return View();
         }
 

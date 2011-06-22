@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using owlas_0_0_1.Models;
+using System.Text.RegularExpressions;
 
 namespace owlas_0_0_1.Controllers
 {
@@ -83,7 +84,13 @@ namespace owlas_0_0_1.Controllers
 
                 if (createStatus == MembershipCreateStatus.Success)
                 {
-                    FormsAuthentication.SetAuthCookie(model.Email, false /* createPersistentCookie */);
+                    MembershipUser user = Membership.GetUser(model.Email, false);
+                    user.IsApproved = false;
+                    Membership.UpdateUser(user);
+                    owlas_0_0_1.Classes.Mailer mailer = new Classes.Mailer();
+                    mailer.SendConfirmationEmail(user);
+
+                    /*FormsAuthentication.SetAuthCookie(model.Email, false  createPersistentCookie );*/
                     return RedirectToAction("About", "Home");
                 }
                 else
@@ -150,6 +157,37 @@ namespace owlas_0_0_1.Controllers
             return View();
         }
 
+        //
+        // GET: /Account/Verify/ID
+
+        public ActionResult Verify(string ID)
+        {
+            if (string.IsNullOrEmpty(ID) || (!Regex.IsMatch(ID, @"[0-9a-f]{8}\-([0-9a-f]{4}\-){3}[0-9a-f]{12}")))
+            {
+                TempData["tempMessage"] = "The user account is not valid. Please try clicking the link in your email again.";
+                return View();
+            }
+
+            else
+            {
+                MembershipUser user = Membership.GetUser(new Guid(ID));
+
+                if (!user.IsApproved)
+                {
+                    user.IsApproved = true;
+                    Membership.UpdateUser(user);
+                    FormsAuthentication.SetAuthCookie(user.Email, false);
+                    return RedirectToAction("About", "Home");
+                }
+                else
+                {
+                    FormsAuthentication.SignOut();
+                    return RedirectToAction("Index", "Home");
+                }
+            }
+        }
+
+
         #region Status Codes
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
         {
@@ -158,34 +196,16 @@ namespace owlas_0_0_1.Controllers
             switch (createStatus)
             {
                 case MembershipCreateStatus.DuplicateUserName:
-                    return "User name already exists. Please enter a different user name.";
-
-                case MembershipCreateStatus.DuplicateEmail:
-                    return "A user name for that e-mail address already exists. Please enter a different e-mail address.";
+                    return "O endereço de email escolhido já está registado";
 
                 case MembershipCreateStatus.InvalidPassword:
-                    return "The password provided is invalid. Please enter a valid password value.";
-
-                case MembershipCreateStatus.InvalidEmail:
-                    return "The e-mail address provided is invalid. Please check the value and try again.";
-
-                case MembershipCreateStatus.InvalidAnswer:
-                    return "The password retrieval answer provided is invalid. Please check the value and try again.";
-
-                case MembershipCreateStatus.InvalidQuestion:
-                    return "The password retrieval question provided is invalid. Please check the value and try again.";
+                    return "A palavra-passe escolhida é inválida";
 
                 case MembershipCreateStatus.InvalidUserName:
-                    return "The user name provided is invalid. Please check the value and try again.";
-
-                case MembershipCreateStatus.ProviderError:
-                    return "The authentication provider returned an error. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
-
-                case MembershipCreateStatus.UserRejected:
-                    return "The user creation request has been canceled. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return "O endereço de email escolhido é inválido";
 
                 default:
-                    return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
+                    return "Houve um erro com o registo. Se o erro persistir contacte o administrador do site";
             }
         }
         #endregion
